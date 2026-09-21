@@ -1,8 +1,12 @@
 import javafx.scene.input.KeyCode;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Main extends Frame {
     public int x = 0;
@@ -10,9 +14,7 @@ public class Main extends Frame {
     KeyListener kl = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
-
         }
-
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_LEFT)
@@ -39,16 +41,23 @@ public class Main extends Frame {
                 y++;
                 repaint();
             }
-
         }
-
         @Override
         public void keyReleased(KeyEvent e) {
-
         }
     };
+
+    public BufferedImage im;
+
     public Main()
     {
+        try {
+            im = ImageIO.read(new File ("C:/Users/malakhovskiyam.28/IdeaProjects/Pi001A/src/sun.jpg"));
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         setTitle("The Sun");
         setSize(800,640);
         setVisible(true);
@@ -56,7 +65,6 @@ public class Main extends Frame {
     }
     public void paint(Graphics g)
     {
-
         super.paint(g);
         Graphics2D isa = (Graphics2D) g;
         /*
@@ -75,6 +83,7 @@ public class Main extends Frame {
         */
         g.setColor(Color.RED);
         g.fillOval(x,y,50,50);
+        g.drawImage(im, 0, 0, this);
         //for (long i = 0; i < 999999999; i++){}
         //g.fillOval(600,200,50,50);
     }
