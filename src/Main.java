@@ -3,6 +3,7 @@ import javafx.scene.input.KeyCode;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 public class Main extends Frame {
     public int x = 0;
     public int y = 0;
