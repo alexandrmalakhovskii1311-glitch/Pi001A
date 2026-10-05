@@ -52,14 +52,14 @@ public class Main extends Frame {
     public Main()
     {
         try {
-            im = ImageIO.read(new File ("C:/Users/malakhovskiyam.28/IdeaProjects/Pi001A/src/sun.jpg"));
+            im = ImageIO.read(new File ("C:/Users/malakhovskiyam.28/Downloads/Freak.png"));
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         setTitle("The Sun");
-        setSize(800,640);
+        setSize(1920,1440);
         setVisible(true);
         addKeyListener(kl);
     }
@@ -82,8 +82,8 @@ public class Main extends Frame {
         for (int x = 0; x < 600; x++) {
         */
         g.setColor(Color.RED);
-        g.fillOval(x,y,50,50);
-        g.drawImage(im, 0, 0, this);
+        //g.fillOval(x,y,50,50);
+        g.drawImage(im, x, y, this);
         //for (long i = 0; i < 999999999; i++){}
         //g.fillOval(600,200,50,50);
     }
