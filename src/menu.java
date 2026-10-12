@@ -21,11 +21,8 @@ public class menu extends JFrame {
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.getPoint().x > 600 && e.getPoint().x < 950 && e.getPoint().y > 300 && e.getPoint().y < 391) {;
-                new test2();
             }
-            if (e.getPoint().x > 600 && e.getPoint().x < 950 && e.getPoint().y > 500 && e.getPoint().y < 588) {
                 new Settings();}
-            if (e.getPoint().x > 1800 && e.getPoint().x < 1920 && e.getPoint().y > 0 && e.getPoint().y < 150) {
                 System.exit(0);
             }
         }
@@ -50,7 +47,6 @@ public class menu extends JFrame {
             throw new RuntimeException(e);
         }
         setVisible(true);
-        setSize(1920, 1080);
         setTitle("Cosmic Shooter Pre-Alpha000");
         addMouseListener(ml);
     }
