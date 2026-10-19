@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +9,13 @@ import java.io.IOException;
 public class Game extends Frame {
     public Ship ship = new Ship();
     public Press2 exit = new Press2();
+    public laser las = new laser();
+    public laser[] l = new laser[50];
+
     public BufferedImage fon;
+    public boolean flag = false;
+    //Timer time = new Timer(239, new ActionListener {
+    // });
     MouseListener ml = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent e) {        }
@@ -32,17 +35,14 @@ public class Game extends Frame {
         @Override
         public void mouseExited(MouseEvent e) {        }
     };
-    int n = 0;
     KeyListener kl = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {          }
         @Override
         public void keyPressed(KeyEvent e) {
-            ship.ax = 1;
             if (e.getKeyCode() == KeyEvent.VK_LEFT)
             {
-                n++;
-                ship.x -= ship.ax * n;
+                ship.x -= 3;
                 repaint();
             }
             if(e.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -60,6 +60,17 @@ public class Game extends Frame {
                 ship.y += 3;
                 repaint();
             }
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+                flag= !flag;
+                repaint();
+                /* las.x = ship.x;
+                las.y = ship.y;
+                Timer time = new Timer(0.1, new ActionListener {
+
+                });*/
+
+            }
         }
         @Override
         public void keyReleased(KeyEvent e) {            }
@@ -67,7 +78,7 @@ public class Game extends Frame {
     Game()
     {
         try {
-            fon = ImageIO.read(new File ("src/фон.png"));
+            fon = ImageIO.read(new File ("src/fon.png"));
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -85,6 +96,9 @@ public class Game extends Frame {
         g.drawImage(fon, 0, 0, this);
         g.drawImage(ship.image, ship.x, ship.y, this);
         g.drawImage(exit.image, 700, 0, this);
+        if (flag) {
+           g.drawImage(las.image, las.x, las.y, this);
+       }
 
     }
     public static void main(String[] args)

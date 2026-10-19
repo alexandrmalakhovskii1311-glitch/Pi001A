@@ -26,5 +26,4 @@ public class Press1
         x+=dx;
         y+=dx;
     }
-
 }
