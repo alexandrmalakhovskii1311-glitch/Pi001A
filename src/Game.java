@@ -62,7 +62,7 @@ public class Game extends Frame {
             }
         }
         @Override
-        public void keyReleased(KeyEvent e) {           }
+        public void keyReleased(KeyEvent e) {            }
     };
     Game()
     {
