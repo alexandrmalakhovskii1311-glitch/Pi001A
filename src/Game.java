@@ -61,7 +61,8 @@ public class Game extends Frame {
                 repaint();
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
+                las.x = ship.x + 90;
+                las.y = ship.y ;
                 flag= !flag;
                 repaint();
                 /* las.x = ship.x;
