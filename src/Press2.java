@@ -11,6 +11,7 @@ public class Press2
 
     Press2()
     {
+        x = 1770;
         y = 0;
         IsVisible = true;
         try {

@@ -20,9 +20,16 @@ public class menu extends JFrame {
         }
         @Override
         public void mousePressed(MouseEvent e) {
-            if (e.getPoint().x > 600 && e.getPoint().x < 950 && e.getPoint().y > 300 && e.getPoint().y < 391) {;
+            if (e.getPoint().x > 600 && e.getPoint().x < 950 && e.getPoint().y > 300 && e.getPoint().y < 391)  {
+                dispose();
+                new Game();
             }
-                new Settings();}
+            if (e.getPoint().x > 600 && e.getPoint().x < 950 && e.getPoint().y > 450 && e.getPoint().y < 541)  {
+                dispose();
+                new Settings();
+            }
+            if (e.getPoint().x > 1770 && e.getPoint().x < 1920 && e.getPoint().y > 0 && e.getPoint().y < 150)  {
+                System.exit(0);
                 System.exit(0);
             }
         }
@@ -47,6 +54,7 @@ public class menu extends JFrame {
             throw new RuntimeException(e);
         }
         setVisible(true);
+        setSize(1920, 1080);
         setTitle("Cosmic Shooter Pre-Alpha000");
         addMouseListener(ml);
     }
