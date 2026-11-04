@@ -2,28 +2,29 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class laser
-{
-    public static int x;
-    public static int y;
-    public static boolean IsVisible;
+public class laser {
+    public int x;
+    public int y;
+    public boolean IsVisible;
+
     public static BufferedImage image;
 
-    laser()
-    {
-        x = 600;
-        y = 300;
-        IsVisible = true;
+    static {
         try {
             image = ImageIO.read(new File("src/заряд.png"));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println("Не удалось загрузить картинку лазера: " + e.getMessage());
         }
-
     }
-    public static void move(int dx, int dy)
-    {
-        x+=dx;
-        y+=dx;
+
+    public laser() {
+        x = 600;
+        y = 300;
+        IsVisible = true;
+    }
+
+    public void move(int dx, int dy) {
+        x += dx;
+        y += dy;
     }
 }
