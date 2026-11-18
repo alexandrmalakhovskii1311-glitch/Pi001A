@@ -26,7 +26,4 @@ public class GameOver extends JFrame {
         g.drawImage(image, 0, 0, this);
     }
 
-    public static void main(String[] args) {
-        new GameOver();
-    }
 }
