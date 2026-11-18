@@ -13,8 +13,35 @@ public class Game extends JFrame {
         public Ship ship = new Ship();
         public Press2 exit = new Press2();
         public ArrayList<laser> l = new ArrayList<>();
+        public ArrayList<Meteor> m = new ArrayList<>();
         public BufferedImage fon;
 
+        // Таймер спавна метеоров раз в 5 секунд
+        javax.swing.Timer spawnTimer = new javax.swing.Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Meteor newMeteor = new Meteor();
+                m.add(newMeteor);
+            }
+        });
+
+        // Таймер движения метеоров напрямую по их dx и dy
+        javax.swing.Timer MeteorTimer = new javax.swing.Timer(15, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = m.size() - 1; i >= 0; i--) {
+                    m.get(i).x += m.get(i).dx;
+                    m.get(i).y += m.get(i).dy;
+
+                    if (m.get(i).y > 1100 || m.get(i).x < -400 || m.get(i).x > 1300) {
+                        m.remove(i);
+                    }
+                }
+                repaint();
+            }
+        });
+
+        // Таймер движения лазеров
         javax.swing.Timer laserTimer = new javax.swing.Timer(15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,6 +62,8 @@ public class Game extends JFrame {
                 throw new RuntimeException(e);
             }
             laserTimer.start();
+            MeteorTimer.start();
+            spawnTimer.start();
         }
 
         @Override
@@ -48,6 +77,10 @@ public class Game extends JFrame {
             for (int i = 0; i < l.size(); i++) {
                 g.drawImage(l.get(i).image, l.get(i).x, l.get(i).y, this);
             }
+
+            for (int i = 0; i < m.size(); i++) {
+                g.drawImage(m.get(i).image, m.get(i).x, m.get(i).y, this);
+            }
         }
     }
 
@@ -58,6 +91,8 @@ public class Game extends JFrame {
         public void mousePressed(MouseEvent e) {
             if (e.getPoint().x > 700 && e.getPoint().x < 800 && e.getPoint().y > 0 && e.getPoint().y < 150) {
                 panel.laserTimer.stop();
+                panel.MeteorTimer.stop();
+                panel.spawnTimer.stop();
                 dispose();
                 new menu();
             }
@@ -115,6 +150,7 @@ public class Game extends JFrame {
         new Game();
     }
 }
+
 
 
 

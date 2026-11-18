@@ -17,16 +17,16 @@ public class Meteor {
         try {
             image = ImageIO.read(new File("src/метеор.png"));
         } catch (Exception e) {
-            System.err.println("Не удалось загрузить картинку лазера: " + e.getMessage());
+            System.err.println("Не удалось загрузить картинку метеора: " + e.getMessage());
         }
     }
 
     public Meteor() {
         x = random.nextInt(1200) - 200;
-        y = random.nextInt(200) - 400;
+        y = random.nextInt(200) - 200;
         if (x >= 400) dx = random.nextInt(8) - 10;
         else dx = random.nextInt(8) + 2;
-        dy = random.nextInt(8) + 2;
+        dy = random.nextInt(8);
 
         IsVisible = true;
     }
