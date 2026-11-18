@@ -22,8 +22,10 @@ public class Meteor {
     }
 
     public Meteor() {
-        x = random.nextInt(1200) - 200;
-        y = random.nextInt(200) - 200;
+        boolean f = random.nextBoolean();
+        if (f) x = random.nextInt(150) - 200;
+        else x = random.nextInt(150) + 850;
+        y = random.nextInt(200);
         if (x >= 400) dx = random.nextInt(8) - 10;
         else dx = random.nextInt(8) + 2;
         dy = random.nextInt(8);

@@ -16,7 +16,6 @@ public class Game extends JFrame {
         public ArrayList<Meteor> m = new ArrayList<>();
         public BufferedImage fon;
 
-        // Таймер спавна метеоров раз в 5 секунд
         javax.swing.Timer spawnTimer = new javax.swing.Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -25,8 +24,7 @@ public class Game extends JFrame {
             }
         });
 
-        // Таймер движения метеоров напрямую по их dx и dy
-        javax.swing.Timer MeteorTimer = new javax.swing.Timer(15, new ActionListener() {
+        javax.swing.Timer MeteorTimer = new javax.swing.Timer(25, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = m.size() - 1; i >= 0; i--) {
@@ -37,18 +35,66 @@ public class Game extends JFrame {
                         m.remove(i);
                     }
                 }
+                Rectangle ShipRect = new Rectangle(
+                        ship.x,
+                        ship.y,
+                        ship.image.getWidth(),
+                        ship.image.getHeight()
+                );
+                for (int j = m.size() - 1; j >= 0; j--) {
+                    Rectangle meteorRect = new Rectangle(
+                            m.get(j).x,
+                            m.get(j).y,
+                            m.get(j).image.getWidth(),
+                            m.get(j).image.getHeight()
+                    );
+
+                    if (ShipRect.intersects(meteorRect)) {
+                        MeteorTimer.stop();
+                        laserTimer.stop();
+                        spawnTimer.stop();
+                        dispose();
+                        new GameOver();
+                        break;
+                    }
+                }
+
                 repaint();
+
             }
         });
 
-        // Таймер движения лазеров
         javax.swing.Timer laserTimer = new javax.swing.Timer(15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = l.size() - 1; i >= 0; i--) {
                     l.get(i).y -= 10;
+
                     if (l.get(i).y < -100) {
                         l.remove(i);
+                        continue;
+                    }
+
+                    Rectangle laserRect = new Rectangle(
+                            l.get(i).x,
+                            l.get(i).y,
+                            l.get(i).image.getWidth(),
+                            l.get(i).image.getHeight()
+                    );
+
+                    for (int j = m.size() - 1; j >= 0; j--) {
+                        Rectangle meteorRect = new Rectangle(
+                                m.get(j).x,
+                                m.get(j).y,
+                                m.get(j).image.getWidth(),
+                                m.get(j).image.getHeight()
+                        );
+
+                        if (laserRect.intersects(meteorRect)) {
+                            m.remove(j);
+                            l.remove(i);
+                            break;
+                        }
                     }
                 }
                 repaint();
@@ -106,11 +152,11 @@ public class Game extends JFrame {
         public void keyTyped(KeyEvent e) {}
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                panel.ship.x -= 5;
+                panel.ship.x -= 7;
                 panel.repaint();
             }
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                panel.ship.x += 5;
+                panel.ship.x += 7;
                 panel.repaint();
             }
             if (e.getKeyCode() == KeyEvent.VK_UP && panel.ship.y > 400) {
@@ -135,7 +181,6 @@ public class Game extends JFrame {
     Game() {
         setTitle("Game");
         setSize(800, 1000);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new GamePanel();
         add(panel);
@@ -150,6 +195,7 @@ public class Game extends JFrame {
         new Game();
     }
 }
+
 
 
 
