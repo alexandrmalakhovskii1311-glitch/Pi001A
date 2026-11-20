@@ -36,17 +36,17 @@ public class Game extends JFrame {
                     }
                 }
                 Rectangle ShipRect = new Rectangle(
-                        ship.x,
-                        ship.y,
-                        ship.image.getWidth(),
-                        ship.image.getHeight()
+                        ship.x + 20,
+                        ship.y + 20,
+                        ship.image.getWidth() - 30,
+                        ship.image.getHeight() - 30
                 );
                 for (int j = m.size() - 1; j >= 0; j--) {
                     Rectangle meteorRect = new Rectangle(
-                            m.get(j).x,
-                            m.get(j).y,
-                            m.get(j).image.getWidth(),
-                            m.get(j).image.getHeight()
+                            m.get(j).x + 15,
+                            m.get(j).y + 15,
+                            m.get(j).image.getWidth() - 30,
+                            m.get(j).image.getHeight() - 30
                     );
 
                     if (ShipRect.intersects(meteorRect)) {
@@ -84,10 +84,10 @@ public class Game extends JFrame {
 
                     for (int j = m.size() - 1; j >= 0; j--) {
                         Rectangle meteorRect = new Rectangle(
-                                m.get(j).x,
-                                m.get(j).y,
-                                m.get(j).image.getWidth(),
-                                m.get(j).image.getHeight()
+                                m.get(j).x + 15,
+                                m.get(j).y + 15,
+                                m.get(j).image.getWidth() - 30,
+                                m.get(j).image.getHeight() - 30
                         );
 
                         if (laserRect.intersects(meteorRect)) {
