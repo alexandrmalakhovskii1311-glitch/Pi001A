@@ -16,6 +16,20 @@ public class Game extends JFrame {
         public ArrayList<Meteor> m = new ArrayList<>();
         public BufferedImage fon;
 
+        javax.swing.Timer ShipTimer = new javax.swing.Timer(20 , new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ship.rotateL == true) {
+                    ship.angle -= 4;
+                    ship.rotateL = false;
+                }
+                if (ship.rotateR == true) {
+                    ship.angle += 4;
+                    ship.rotateR = false;
+                }
+            }
+        });
+
         javax.swing.Timer spawnTimer = new javax.swing.Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,23 +50,24 @@ public class Game extends JFrame {
                     }
                 }
                 Rectangle ShipRect = new Rectangle(
-                        ship.x + 20,
-                        ship.y + 20,
-                        ship.image.getWidth() - 30,
-                        ship.image.getHeight() - 30
+                        ship.x,
+                        ship.y,
+                        ship.image.getWidth(),
+                        ship.image.getHeight()
                 );
                 for (int j = m.size() - 1; j >= 0; j--) {
                     Rectangle meteorRect = new Rectangle(
-                            m.get(j).x + 15,
-                            m.get(j).y + 15,
-                            m.get(j).image.getWidth() - 30,
-                            m.get(j).image.getHeight() - 30
+                            m.get(j).x,
+                            m.get(j).y,
+                            m.get(j).image.getWidth(),
+                            m.get(j).image.getHeight()
                     );
 
                     if (ShipRect.intersects(meteorRect)) {
                         MeteorTimer.stop();
                         laserTimer.stop();
                         spawnTimer.stop();
+                        ShipTimer.stop();
                         dispose();
                         new GameOver();
                         break;
@@ -68,7 +83,8 @@ public class Game extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = l.size() - 1; i >= 0; i--) {
-                    l.get(i).y -= 10;
+                    l.get(i).y -= 10 * Math.cos(l.get(i).angleLaser / 180 * 3.1415);
+                    l.get(i).x += 10 * Math.sin(l.get(i).angleLaser / 180 * 3.1415);
 
                     if (l.get(i).y < -100) {
                         l.remove(i);
@@ -84,10 +100,10 @@ public class Game extends JFrame {
 
                     for (int j = m.size() - 1; j >= 0; j--) {
                         Rectangle meteorRect = new Rectangle(
-                                m.get(j).x + 15,
-                                m.get(j).y + 15,
-                                m.get(j).image.getWidth() - 30,
-                                m.get(j).image.getHeight() - 30
+                                m.get(j).x,
+                                m.get(j).y,
+                                m.get(j).image.getWidth(),
+                                m.get(j).image.getHeight()
                         );
 
                         if (laserRect.intersects(meteorRect)) {
@@ -110,22 +126,28 @@ public class Game extends JFrame {
             laserTimer.start();
             MeteorTimer.start();
             spawnTimer.start();
+            ShipTimer.start();
         }
 
         @Override
         public void paint(Graphics g) {
             super.paint(g);
+            Graphics2D g2d = (Graphics2D) g;
 
-            g.drawImage(fon, 0, 0, getWidth(), getHeight(), this);
-            g.drawImage(ship.image, ship.x, ship.y, this);
-            g.drawImage(exit.image, 700, 0, this);
+            g2d.drawImage(fon, 0, 0, getWidth(), getHeight(), this);
+            g2d.rotate(ship.angle / 180 * 3.1415, ship.x + 100, ship.y + 100);
+            g2d.drawImage(ship.image, ship.x, ship.y, this);
+            g2d.rotate( -ship.angle / 180 * 3.1415, ship.x + 100, ship.y + 100);
+            g2d.drawImage(exit.image, 700, 0, this);
 
             for (int i = 0; i < l.size(); i++) {
-                g.drawImage(l.get(i).image, l.get(i).x, l.get(i).y, this);
+                g2d.rotate(l.get(i).angleLaser / 180 * 3.1415, l.get(i).x + 10, l.get(i).y + 25);
+                g2d.drawImage(l.get(i).image, l.get(i).x, l.get(i).y, this);
+                g2d.rotate(-l.get(i).angleLaser / 180 * 3.1415, l.get(i).x + 10, l.get(i).y + 25);
             }
 
             for (int i = 0; i < m.size(); i++) {
-                g.drawImage(m.get(i).image, m.get(i).x, m.get(i).y, this);
+                g2d.drawImage(m.get(i).image, m.get(i).x, m.get(i).y, this);
             }
         }
     }
@@ -169,13 +191,22 @@ public class Game extends JFrame {
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 laser newLaser = new laser();
-                newLaser.x = panel.ship.x + 90;
-                newLaser.y = panel.ship.y;
+                newLaser.x = (int) (panel.ship.x + 90 *  Math.cos(panel.ship.angle / 180 * 3.1415));
+                newLaser.y = (int) (panel.ship.y + 90 *  Math.abs(Math.sin(panel.ship.angle / 180 * 3.1415)));
+                newLaser.angleLaser = panel.ship.angle;
                 panel.l.add(newLaser);
                 panel.repaint();
             }
         }
-        public void keyReleased(KeyEvent e) {}
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                panel.ship.rotateR = true;
+            }
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                panel.ship.rotateL = true;
+            }
+
+        }
     };
 
     Game() {

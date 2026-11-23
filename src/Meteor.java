@@ -17,7 +17,7 @@ public class Meteor {
         try {
             image = ImageIO.read(new File("src/метеор.png"));
         } catch (Exception e) {
-            System.err.println("Не удалось загрузить картинку метеора: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

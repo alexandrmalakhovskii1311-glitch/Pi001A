@@ -5,6 +5,7 @@ import java.io.File;
 public class laser {
     public int x;
     public int y;
+    public double angleLaser;
     public boolean IsVisible;
 
     public static BufferedImage image;

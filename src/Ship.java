@@ -5,6 +5,9 @@ import java.io.File;
 public class Ship {
     public static int x;
     public static int y;
+    public static double angle = 0;
+    public static boolean rotateL = false;
+    public static boolean rotateR = false;
     public static int ax = 0;
     public static int ay = 0;
     public static boolean IsVisible;
