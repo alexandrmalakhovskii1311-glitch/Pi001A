@@ -16,6 +16,13 @@ public class Game extends JFrame {
         public ArrayList<Meteor> m = new ArrayList<>();
         public BufferedImage fon;
 
+        javax.swing.Timer ShipReload = new javax.swing.Timer(1000 , new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ship.reload = false;
+                ShipReload.stop();
+            }
+        });
         javax.swing.Timer ShipTimer = new javax.swing.Timer(20 , new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -24,11 +31,13 @@ public class Game extends JFrame {
                     ship.rotateL = false;
                 }
                 else if (ship.angle < 0) ship.angle += 1.5;
+                if (ship.angle < 0 && ship.angle > -1.5) ship.angle = 0;
                 if (ship.rotateR == true) {
                     ship.angle += 2;
                     ship.rotateR = false;
                 }
                 else if (ship.angle > 0) ship.angle -= 1.5;
+                if (ship.angle > 0 && ship.angle < 1.5) ship.angle = 0;
             }
         });
 
@@ -52,17 +61,18 @@ public class Game extends JFrame {
                     }
                 }
                 Rectangle ShipRect = new Rectangle(
-                        ship.x,
-                        ship.y,
-                        ship.image.getWidth(),
-                        ship.image.getHeight()
+                        ship.x + 40,
+                        ship.y + 30,
+                        ship.image.getWidth() - 85,
+                        ship.image.getHeight() - 60
                 );
+
                 for (int j = m.size() - 1; j >= 0; j--) {
                     Rectangle meteorRect = new Rectangle(
-                            m.get(j).x,
-                            m.get(j).y,
-                            m.get(j).image.getWidth(),
-                            m.get(j).image.getHeight()
+                            m.get(j).x + 15,
+                            m.get(j).y + 15,
+                            m.get(j).image.getWidth() - 30,
+                            m.get(j).image.getHeight() - 30
                     );
 
                     if (ShipRect.intersects(meteorRect)) {
@@ -70,6 +80,7 @@ public class Game extends JFrame {
                         laserTimer.stop();
                         spawnTimer.stop();
                         ShipTimer.stop();
+                        ShipReload.stop();
                         dispose();
                         new GameOver();
                         break;
@@ -102,10 +113,10 @@ public class Game extends JFrame {
 
                     for (int j = m.size() - 1; j >= 0; j--) {
                         Rectangle meteorRect = new Rectangle(
-                                m.get(j).x,
-                                m.get(j).y,
-                                m.get(j).image.getWidth(),
-                                m.get(j).image.getHeight()
+                                m.get(j).x + 15,
+                                m.get(j).y + 15,
+                                m.get(j).image.getWidth() - 30,
+                                m.get(j).image.getHeight() - 30
                         );
 
                         if (laserRect.intersects(meteorRect)) {
@@ -192,17 +203,21 @@ public class Game extends JFrame {
                 panel.repaint();
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                laser newLaser = new laser();
-                newLaser.x = (int) (panel.ship.x + 90 *  Math.cos(panel.ship.angle / 180 * 3.1415));
-                newLaser.y = (int) (panel.ship.y + 90 *  Math.abs(Math.sin(panel.ship.angle / 180 * 3.1415)));
-                newLaser.angleLaser = panel.ship.angle;
-                panel.l.add(newLaser);
-                panel.repaint();
+                if (panel.ship.reload == false) {
+                    laser newLaser = new laser();
+                    newLaser.x = (int) (panel.ship.x + 90 * Math.cos(panel.ship.angle / 180 * 3.1415));
+                    newLaser.y = (int) (panel.ship.y + 90 * Math.abs(Math.sin(panel.ship.angle / 180 * 3.1415)));
+                    newLaser.angleLaser = panel.ship.angle;
+                    panel.l.add(newLaser);
+                    panel.repaint();
+                    panel.ship.reload = true;
+                    panel.ShipReload.start();
+                }
             }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT)  {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT && panel.ship.angle < 40)  {
                 panel.ship.rotateR = true;
             }
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT && panel.ship.angle > -40) {
                 panel.ship.rotateL = true;
             } 
          }
