@@ -20,13 +20,15 @@ public class Game extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ship.rotateL == true) {
-                    ship.angle -= 4;
+                    ship.angle -= 2;
                     ship.rotateL = false;
                 }
+                else if (ship.angle < 0) ship.angle += 1.5;
                 if (ship.rotateR == true) {
-                    ship.angle += 4;
+                    ship.angle += 2;
                     ship.rotateR = false;
                 }
+                else if (ship.angle > 0) ship.angle -= 1.5;
             }
         });
 
@@ -197,14 +199,15 @@ public class Game extends JFrame {
                 panel.l.add(newLaser);
                 panel.repaint();
             }
-        }
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT)  {
                 panel.ship.rotateR = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 panel.ship.rotateL = true;
-            }
+            } 
+         }
+        public void keyReleased(KeyEvent e) {
+
 
         }
     };
