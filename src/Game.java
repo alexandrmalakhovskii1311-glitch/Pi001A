@@ -186,11 +186,11 @@ public class Game extends JFrame {
     KeyListener kl = new KeyListener() {
         public void keyTyped(KeyEvent e) {}
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT && panel.ship.x > -20) {
                 panel.ship.x -= 7;
                 panel.repaint();
             }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT && panel.ship.x < 595) {
                 panel.ship.x += 7;
                 panel.repaint();
             }
