@@ -63,7 +63,7 @@ public class Game extends JFrame {
                 Rectangle ShipRect = new Rectangle(
                         ship.x + 40,
                         ship.y + 30,
-                        ship.image.getWidth() - 85,
+                        ship.image.getWidth() - 80,
                         ship.image.getHeight() - 60
                 );
 
@@ -113,10 +113,10 @@ public class Game extends JFrame {
 
                     for (int j = m.size() - 1; j >= 0; j--) {
                         Rectangle meteorRect = new Rectangle(
-                                m.get(j).x + 15,
-                                m.get(j).y + 15,
-                                m.get(j).image.getWidth() - 30,
-                                m.get(j).image.getHeight() - 30
+                                m.get(j).x,
+                                m.get(j).y,
+                                m.get(j).image.getWidth() - 20,
+                                m.get(j).image.getHeight() - 20
                         );
 
                         if (laserRect.intersects(meteorRect)) {
@@ -148,9 +148,9 @@ public class Game extends JFrame {
             Graphics2D g2d = (Graphics2D) g;
 
             g2d.drawImage(fon, 0, 0, getWidth(), getHeight(), this);
-            g2d.rotate(ship.angle / 180 * 3.1415, ship.x + 100, ship.y + 100);
+            g2d.rotate(ship.angle / 180 * 3.1415, ship.x + 76, ship.y + 68);
             g2d.drawImage(ship.image, ship.x, ship.y, this);
-            g2d.rotate( -ship.angle / 180 * 3.1415, ship.x + 100, ship.y + 100);
+            g2d.rotate( -ship.angle / 180 * 3.1415, ship.x + 76, ship.y + 68);
             g2d.drawImage(exit.image, 700, 0, this);
 
             for (int i = 0; i < l.size(); i++) {
@@ -186,11 +186,11 @@ public class Game extends JFrame {
     KeyListener kl = new KeyListener() {
         public void keyTyped(KeyEvent e) {}
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_LEFT && panel.ship.x > -20) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT && panel.ship.x > 0) {
                 panel.ship.x -= 7;
                 panel.repaint();
             }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT && panel.ship.x < 595) {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT && panel.ship.x < 628) {
                 panel.ship.x += 7;
                 panel.repaint();
             }
@@ -205,8 +205,8 @@ public class Game extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 if (panel.ship.reload == false) {
                     laser newLaser = new laser();
-                    newLaser.x = (int) (panel.ship.x + 90 * Math.cos(panel.ship.angle / 180 * 3.1415));
-                    newLaser.y = (int) (panel.ship.y + 90 * Math.abs(Math.sin(panel.ship.angle / 180 * 3.1415)));
+                    newLaser.x = (int) (panel.ship.x + 76 * Math.cos(panel.ship.angle / 180 * 3.1415));
+                    newLaser.y = (int) (panel.ship.y + 68  * Math.abs(Math.sin(panel.ship.angle / 180 * 3.1415)));
                     newLaser.angleLaser = panel.ship.angle;
                     panel.l.add(newLaser);
                     panel.repaint();
@@ -244,16 +244,3 @@ public class Game extends JFrame {
         new Game();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
